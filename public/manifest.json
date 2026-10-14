@@ -1,0 +1,21 @@
+{
+  "short_name": "AdvoCare",
+  "name": "AdvoCare — Professional Yuridik Xizmatlar Platformasi",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B1424",
+  "theme_color": "#0B1424",
+  "display": "standalone",
+  "orientation": "portrait"
+}
