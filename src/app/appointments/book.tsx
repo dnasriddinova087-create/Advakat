@@ -125,19 +125,59 @@ export default function BookAppointmentScreen() {
             </View>
             <Text style={styles.successTitle}>Uchrashuv muvaffaqiyatli bron qilindi!</Text>
             <Text style={styles.successSubtitle}>
-              Bron so‘rovingiz advokatga yuborildi. Advokat tasdiqlagach, shaxsiy chat ochiladi va bildirishnoma olasiz.
+              Bron so‘rovingiz advokatga yuborildi. Advokat tasdiqlashi bilan bildirishnoma olasiz va shaxsiy xavfsiz chat ochiladi.
             </Text>
 
+            {/* Detailed Formal Receipt */}
             <View style={styles.receiptBox}>
-              <Text style={styles.receiptRow}>
-                Advokat: <Text style={{ fontWeight: '700' }}>{currentLawyer?.full_name}</Text>
-              </Text>
-              <Text style={styles.receiptRow}>
-                Sana va vaqt: <Text style={{ fontWeight: '700' }}>{appointmentDate}, {selectedSlot}</Text>
-              </Text>
-              <Text style={styles.receiptRow}>
-                To‘lov miqdori: <Text style={{ fontWeight: '800', color: COLORS.navy }}>{formatMoney(currentLawyer?.consultation_price || 0)}</Text>
-              </Text>
+              <View style={styles.receiptHeader}>
+                <Text style={styles.receiptHeading}>RASMIY BRON KVITANSIYASI</Text>
+                <Text style={styles.receiptId}>ID: APP-{Date.now().toString().slice(-6)}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>👤 Kim bilan (Advokat):</Text>
+                <Text style={styles.receiptValue}>{currentLawyer?.full_name || 'Advokat'}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>📍 Hudud / Ofis:</Text>
+                <Text style={styles.receiptValue}>{currentLawyer?.region || 'Toshkent shahri'}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>📅 Qachon (Sana):</Text>
+                <Text style={styles.receiptValueHighlight}>{appointmentDate}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>⏰ Soat nechida (Vaqt):</Text>
+                <Text style={styles.receiptValueHighlight}>{selectedSlot}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>💼 Xizmat turi:</Text>
+                <Text style={styles.receiptValue}>{selectedService}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>👤 Mijoz (Kim bron qildi):</Text>
+                <Text style={styles.receiptValue}>{user?.full_name || 'Hurmatli mijoz'}</Text>
+              </View>
+
+              <View style={styles.receiptItem}>
+                <Text style={styles.receiptKey}>💰 Maslahat to‘lovi:</Text>
+                <Text style={styles.receiptPrice}>
+                  {formatMoney(currentLawyer?.consultation_price || 180000)}
+                </Text>
+              </View>
+
+              <View style={styles.receiptStatusRow}>
+                <Text style={styles.receiptKey}>🟢 Holati:</Text>
+                <View style={styles.receiptStatusBadge}>
+                  <Text style={styles.receiptStatusText}>Advokat tasdiqlashi kutilmoqda</Text>
+                </View>
+              </View>
             </View>
 
             <View style={styles.successActions}>
@@ -462,26 +502,97 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   receiptBox: {
-    backgroundColor: COLORS.cream,
-    padding: 16,
+    backgroundColor: '#F8F9FB',
+    padding: 20,
     borderRadius: RADIUS.lg,
     width: '100%',
-    maxWidth: 480,
+    maxWidth: 520,
     marginBottom: 24,
-    gap: 8,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    ...SHADOWS.sm,
   },
-  receiptRow: {
-    color: COLORS.text,
+  receiptHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+    marginBottom: 12,
+  },
+  receiptHeading: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: COLORS.navy,
+    letterSpacing: 1.2,
+  },
+  receiptId: {
+    fontSize: 11,
+    color: COLORS.goldDark,
+    fontWeight: '700',
+  },
+  receiptItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 6,
+  },
+  receiptKey: {
     fontSize: 13,
+    color: COLORS.textSecondary,
+    fontWeight: '500',
+  },
+  receiptValue: {
+    fontSize: 13,
+    color: COLORS.text,
+    fontWeight: '600',
+    textAlign: 'right',
+    maxWidth: '55%',
+  },
+  receiptValueHighlight: {
+    fontSize: 14,
+    color: COLORS.navy,
+    fontWeight: '800',
+    textAlign: 'right',
+  },
+  receiptPrice: {
+    fontSize: 15,
+    color: COLORS.navy,
+    fontWeight: '900',
+  },
+  receiptStatusRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 10,
+    marginTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#E2E8F0',
+  },
+  receiptStatusBadge: {
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: RADIUS.full,
+    borderWidth: 1,
+    borderColor: '#C8E6C9',
+  },
+  receiptStatusText: {
+    fontSize: 12,
+    color: '#2E7D32',
+    fontWeight: '700',
   },
   successActions: {
     flexDirection: 'row',
     gap: 12,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   toAppsBtn: {
     backgroundColor: COLORS.navy,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
     borderRadius: RADIUS.md,
   },
   toAppsBtnText: {
@@ -490,14 +601,16 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   toHomeBtn: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
     borderRadius: RADIUS.md,
     backgroundColor: COLORS.cream,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
   toHomeBtnText: {
     color: COLORS.navy,
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });

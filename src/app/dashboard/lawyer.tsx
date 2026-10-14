@@ -18,7 +18,10 @@ import {
   MessageCircle, 
   Users, 
   TrendingUp, 
-  Briefcase 
+  Briefcase,
+  ShieldCheck,
+  Sparkles,
+  Settings
 } from 'lucide-react-native';
 import ResponsiveLayout from '../../components/ResponsiveLayout';
 import ProtectedRoute from '../../components/ProtectedRoute';
@@ -72,6 +75,30 @@ export default function LawyerDashboardScreen() {
               <Award size={14} color={COLORS.navy} />
               <Text style={styles.verifiedTagText}>Tasdiqlangan advokat</Text>
             </View>
+          </View>
+
+          {/* ADVOCARE 6-Step Profile Setup & Activation Banner */}
+          <View style={styles.setupBanner}>
+            <View style={styles.setupBannerContent}>
+              <View style={styles.setupIconBox}>
+                <ShieldCheck size={28} color={COLORS.navy} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.setupBannerTitle}>
+                  ADVOCARE — Advokat profilini to‘ldirish va faollashtirish
+                </Text>
+                <Text style={styles.setupBannerDesc}>
+                  Mijozlar sizning tajribangiz, shahar/tumaningiz, ish soatlari va narxlaringizni ko‘rib, to‘g‘ridan-to‘g‘ri murojaat qilishi uchun 6 bosqichli profilni to‘ldiring. Saqlashingiz bilan profilingiz umumiy katalogda darhol aks etadi!
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity 
+              style={styles.setupBannerBtn}
+              onPress={() => router.push('/dashboard/lawyer-profile-setup')}
+            >
+              <Sparkles size={16} color={COLORS.navy} />
+              <Text style={styles.setupBannerBtnText}>Profilni to‘ldirish (6 bosqich)</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Key Metrics */}
@@ -235,5 +262,55 @@ const styles = StyleSheet.create({
   emptyNoticeText: {
     color: COLORS.textSecondary,
     fontSize: 13,
+  },
+  setupBanner: {
+    backgroundColor: '#0F1E36',
+    borderRadius: RADIUS.xl,
+    padding: SPACING.lg,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: COLORS.gold,
+    ...SHADOWS.md,
+  },
+  setupBannerContent: {
+    flexDirection: 'row',
+    gap: 16,
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  setupIconBox: {
+    backgroundColor: COLORS.gold,
+    width: 48,
+    height: 48,
+    borderRadius: RADIUS.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  setupBannerTitle: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: '800',
+    marginBottom: 6,
+  },
+  setupBannerDesc: {
+    color: '#CBD5E1',
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  setupBannerBtn: {
+    backgroundColor: COLORS.gold,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: RADIUS.md,
+    gap: 8,
+    alignSelf: 'flex-start',
+  },
+  setupBannerBtnText: {
+    color: COLORS.navy,
+    fontSize: 14,
+    fontWeight: '800',
   },
 });

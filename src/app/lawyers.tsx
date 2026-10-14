@@ -9,7 +9,7 @@ import {
   ScrollView, 
   Switch 
 } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { 
   Search, 
   SlidersHorizontal, 
@@ -17,7 +17,8 @@ import {
   ShieldCheck, 
   Star, 
   MapPin, 
-  Briefcase 
+  Briefcase,
+  Calendar
 } from 'lucide-react-native';
 import ResponsiveLayout from '../components/ResponsiveLayout';
 import LawyerCard from '../components/LawyerCard';
@@ -30,6 +31,7 @@ import { LawyerProfile } from '../types';
 import { useLanguage } from '../hooks/useLanguage';
 
 export default function LawyersScreen() {
+  const router = useRouter();
   const { t } = useLanguage();
   const params = useLocalSearchParams();
 
@@ -295,6 +297,13 @@ export default function LawyersScreen() {
               <Text style={styles.resultsCountText}>
                 Topilgan advokatlar: <Text style={{ fontWeight: '800', color: COLORS.navy }}>{filteredLawyers.length} nafar</Text>
               </Text>
+              <TouchableOpacity
+                style={styles.universalBookBtn}
+                onPress={() => router.push('/appointments/book')}
+              >
+                <Calendar size={14} color={COLORS.navy} />
+                <Text style={styles.universalBookBtnText}>Advokatni tezkor bron qilish</Text>
+              </TouchableOpacity>
             </View>
 
             {filteredLawyers.length > 0 ? (
@@ -304,12 +313,23 @@ export default function LawyersScreen() {
                 ))}
               </View>
             ) : (
-              <EmptyState
-                title="Advokat topilmadi"
-                description="Tanlangan filtrlarga mos advokat topilmadi. Filtrlarni tozalab ko‘ring."
-                actionLabel="Filtrlarni tozalash"
-                onAction={resetFilters}
-              />
+              <View style={styles.emptyFallbackBox}>
+                <EmptyState
+                  title="Tanlangan filtr bo‘yicha advokat topilmadi"
+                  description="Filtrlarga qaramasdan, platformadagi barcha litsenziyalangan advokatlar orasidan o‘zingizga mos mutaxassisni darhol tanlab, maslahat vaqtini bron qilishingiz mumkin."
+                  actionLabel="Filtrlarni tozalash"
+                  onAction={resetFilters}
+                />
+                <TouchableOpacity
+                  style={styles.directBookFallbackBtn}
+                  onPress={() => router.push('/appointments/book')}
+                >
+                  <Calendar size={16} color={COLORS.navy} />
+                  <Text style={styles.directBookFallbackBtnText}>
+                    Filtrdan qat’i nazar advokatni bron qilish
+                  </Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         </View>
@@ -512,10 +532,48 @@ const styles = StyleSheet.create({
   },
   resultsCountBar: {
     marginBottom: 14,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
   },
   resultsCountText: {
     color: COLORS.textSecondary,
     fontSize: 14,
+  },
+  universalBookBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.gold,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    borderRadius: RADIUS.md,
+    gap: 6,
+  },
+  universalBookBtnText: {
+    color: COLORS.navy,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  emptyFallbackBox: {
+    alignItems: 'center',
+  },
+  directBookFallbackBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.gold,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: RADIUS.md,
+    gap: 8,
+    marginTop: 16,
+    ...SHADOWS.sm,
+  },
+  directBookFallbackBtnText: {
+    color: COLORS.navy,
+    fontSize: 14,
+    fontWeight: '800',
   },
   lawyersGrid: {
     flexDirection: 'row',
